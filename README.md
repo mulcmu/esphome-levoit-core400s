@@ -185,9 +185,9 @@ Byte 5 Screen Brightness
 - `00` Screen Off
 - `64` Screen Full
 
-##### `01 E2 A5` - Set Filter LED (ESP to MCU)  
+##### `01 E2 A5` - Set Filter LED (ESP to MCU)
 
-##### <!--TODO Confirm on 400s-->
+<!--TODO Confirm on 400s-->
 
 Byte 4
 
@@ -251,11 +251,11 @@ Manufacturer lists the filter life at 6 to 8 months and provided clean air deliv
 
 | Fan Speed | CADR    |
 | --------- | ------- |
-| Sleep     | tbd CFM |
-| Low       | tbd CFM |
-| Med       | tbd CFM |
-| High      | tbd CFM |
-| Turbo     | tbd CFM |
+| Sleep     | 59 CFM  |
+| Low       | 88 CFM  |
+| Med       | 118 CFM |
+| High      | 177 CFM |
+| Turbo     | 260 CFM |
 
 Filter lifetime air volume will be estimated based on user provided number of months and 24h operation on High.  The actual air volume through the filter will be estimated based actual runtime and volume for each fan speed.
 
