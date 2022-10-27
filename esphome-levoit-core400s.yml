@@ -54,10 +54,10 @@ time:
 uart:
   - id: uart_mcu2esp
     tx_pin: 
-      number: 21 #GPIO17
+      number: GPIO17
       inverted: false
     rx_pin: 
-      number: 22 #GPIO16
+      number: GPIO16
       inverted: false
     baud_rate: 115200
     debug:
