@@ -1,11 +1,11 @@
 # esphome-levoit-core400s
-Work in progress for upgrading a Levoit Core 400s air purifier to use esphome local control.  The stock PCB has an ESP32-SOLO-1C with headers broken out to program.  All of the user interface and control seems to be implemented on the U2 MCU.  There is another power PCB that supplies 5V from mains input and motor control via one connector and another connector that goes to the PM 2.5.  Very similar to the Core300s.
+Work in progress for upgrading a Levoit Core 400s air purifier to use esphome local control.  The stock PCB has an ESP32-SOLO-1C with headers broken out to program.  All of the user interface and control seems to be implemented on the U2 MCU.  There is another power PCB that supplies 5V from mains input and motor control via one connector and another connector that goes to the PM 2.5.  Very similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) .
 
 U2 Pins 13/14 are serial RX/TX connection to the ESP32 GPIO16/17 via level shifting mosfets.  TP28 and TP33 by the ESP32 are respective test points for the serial connection.
 
-Similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) project, an ESP32 devboard to capture both sides of the traffic on TP28 and TP33 with a little Arduino [project](https://github.com/mulcmu/ESP32_dual_serial_log).  115200 8n1 same as before, packet structure pretty similar as well.
+Similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) project, an ESP32 devboard to capture both sides of the traffic on TP28 and TP33 with a little Arduino [project](https://github.com/mulcmu/ESP32_dual_serial_log).  115200 8n1 same as before.  Command packets are identical to the Core300s.  The Status packet was very similar, some of the bytes were reordered.
 
-Custom UART component for ESPHome under development.  Current firmware is 1.1.01 for ESP and 1.1.07 for MCU.  As delivered FW was 1.0.08 for ESP and 1.1.06 for MCU.
+Current firmware is 1.1.01 for ESP and 1.1.07 for MCU.  As delivered FW was 1.0.08 for ESP and 1.1.06 for MCU.  The yaml and custom component tested satisfactorily in my Core400s unit.
 
 #### Packet Header:
 
@@ -187,8 +187,6 @@ Byte 5 Screen Brightness
 
 ##### `01 E2 A5` - Set Filter LED (ESP to MCU)
 
-<!--TODO Confirm on 400s-->
-
 Byte 4
 
 - `00` Off
@@ -199,8 +197,6 @@ Byte 5 `00`
 Wasn't in original 300s captures before firmware update
 
 ##### `01 E4 A5` - Reset Filter (ESP to MCU and MCU to ESP)
-
-<!--TODO Confirm on 400s-->
 
 Byte 4 `0`
 
