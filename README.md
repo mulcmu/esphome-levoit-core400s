@@ -1,11 +1,30 @@
 # esphome-levoit-core400s
-Work in progress for upgrading a Levoit Core 400s air purifier to use esphome local control.  The stock PCB has an ESP32-SOLO-1C with headers broken out to program.  All of the user interface and control seems to be implemented on the U2 MCU.  There is another power PCB that supplies 5V from mains input and motor control via one connector and another connector that goes to the PM 2.5.  Very similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) .
+Modifications to make a Levoit Core 400s air purifier to use esphome local control.  The stock PCB has an ESP32-SOLO-1C with headers broken out to program.  All of the user interface and control seems to be implemented on the U2 MCU.  There is another power PCB that supplies 5V from mains input and motor control via one connector and another connector that goes to the PM 2.5.  Very similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) .
 
 U2 Pins 13/14 are serial RX/TX connection to the ESP32 GPIO16/17 via level shifting mosfets.  TP28 and TP33 by the ESP32 are respective test points for the serial connection.
 
 Similar to the [Core300s](https://github.com/mulcmu/esphome-levoit-core300s) project, an ESP32 devboard to capture both sides of the traffic on TP28 and TP33 with a little Arduino [project](https://github.com/mulcmu/ESP32_dual_serial_log).  115200 8n1 same as before.  Command packets are identical to the Core300s.  The Status packet was very similar, some of the bytes were reordered.
 
-Current firmware is 1.1.01 for ESP and 1.1.07 for MCU.  As delivered FW was 1.0.08 for ESP and 1.1.06 for MCU.  The yaml and custom component tested satisfactorily in my Core400s unit.
+Current firmware is 1.1.01 for ESP and 1.1.07 for MCU.  As delivered FW was 1.0.08 for ESP and 1.1.06 for MCU.  
+
+Updated to use external component instead of custom component.
+
+https://github.com/acvigue/esphome-levoit-air-purifier provides a similar esphome project that is a bit more polished.
+
+#### TODO:
+
+- Investigate OTA of stock hardware without disassembly.
+- Filter Life tracking
+- Timer feedback if enabled on unit
+- PM2.5 feedback seems very low.  Sensor unit is a Cubic PM2008MS.  Look into raw data.
+
+#### Notes:
+
+OTA firmware updated ESP and MCU firmware.  Both are seperate downloads.
+
+Internal ESP32 seems to use MQTT to communicate with Vesync servers.  Wireshark dissector shows packets as malformed.  They might be encrypted.
+
+The Core400s is much harder to disassemble to get to the UI pcb.  The bottom half unscrews similar to the Core300s.  The motor can be partially removed but not far enough to disconnect wires to UI pcb.  The top grate has snap fit connectors with a breach lock feature.  Once snapped down the whole vent is rotated to lock connections secure.  Once rotated into place, the snap connections prevent counter rotation to remove the vent.  A secure connection without any  screws but not very friendly for disassembly and repair without custom tooling.  
 
 #### Packet Header:
 
@@ -256,19 +275,4 @@ Manufacturer lists the filter life at 6 to 8 months and provided clean air deliv
 Filter lifetime air volume will be estimated based on user provided number of months and 24h operation on High.  The actual air volume through the filter will be estimated based actual runtime and volume for each fan speed.
 
 Filter state sensor will provide a remaining lifetime percent.  Filter service interval will also be selectable and tracked.  Filter service is basically just to vacuum pre-filter.
-
-#### TODO:
-
-- Investigate OTA of stock hardware without disassembly.
-- Filter Life tracking
-- Timer feedback if enabled on unit
-- PM2.5 feedback seems very low.  Sensor unit is a Cubic PM2008MS.  Look into raw data.
-
-#### Notes:
-
-OTA firmware updated ESP and MCU firmware.  Both are seperate downloads.
-
-Internal ESP32 seems to use MQTT to communicate with Vesync servers.  Wireshark dissector shows packets as malformed.  They might be encrypted.
-
-The Core400s is much harder to disassemble to get to the UI pcb.  The bottom half unscrews similar to the Core300s.  The motor can be partially removed but not far enough to disconnect wires to UI pcb.  The top grate has snap fit connectors with a breach lock feature.  Once snapped down the whole vent is rotated to lock connections secure.  Once rotated into place, the snap connections prevent counter rotation to remove the vent.  A secure connection without any  screws but not very friendly for disassembly and repair without custom tooling.  
 
